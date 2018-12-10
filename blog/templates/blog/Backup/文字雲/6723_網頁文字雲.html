@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用d3去畫標籤雲</title>
+</head>
+<body>
+  <div id="tag"
+    style="width: 500px; height: 500px;"></div>
+  <script src="https://sites.google.com/site/bioankeyang/study/javascript/d3/d3.js"></script>
+  <script src="https://sites.google.com/site/bioankeyang/study/javascript/d3/d3.layout.cloud.js"></script>
+  <script>
+    (function() {
+      var fill = d3.scale.category20();
+      //要顯示於標籤雲的資料內容
+      var data = [
+          {
+            text : "捷運",
+            size : 37,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#q=%E6%8D%B7%E9%81%8B&tbm=nws'
+          },
+          {
+            text : "桃園",
+            size : 35,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%A1%83%E5%9C%92'
+          },
+          {
+            text : "房價",
+            size : 25,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%88%BF%E5%83%B9'
+          },
+          {
+            text : "生活圈",
+            size : 40,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E7%94%9F%E6%B4%BB%E5%9C%88'
+          },
+          {
+            text : "豪宅",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E8%B1%AA%E5%AE%85'
+          },
+          {
+            text : "特區",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E7%89%B9%E5%8D%80'
+          },
+          {
+            text : "地段",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%9C%B0%E6%AE%B5'
+          },
+		  {
+            text : "總價",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E7%B8%BD%E5%83%B9'
+          },
+		  {
+            text : "高鐵",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%AB%98%E9%90%B5'
+          },
+		  {
+            text : "建商",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%BB%BA%E5%95%86'
+          },
+		  {
+            text : "社區",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E7%A4%BE%E5%8D%80'
+          },
+		  {
+            text : "林口",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%9E%97%E5%8F%A3'
+          },
+		  {
+            text : "買氣",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E8%B2%B7%E6%B0%A3'
+          },
+		  {
+            text : "水岸",
+            size : 37,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%B0%B4%E5%B2%B8'
+          },
+          {
+            text : "信義",
+            size : 35,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E4%BF%A1%E7%BE%A9'
+          },
+          {
+            text : "買房",
+            size : 25,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E8%B2%B7%E6%88%BF'
+          },
+          {
+            text : "生活",
+            size : 40,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E7%94%9F%E6%B4%BB'
+          },
+          {
+            text : "新北",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%96%B0%E5%8C%97'
+          },
+          {
+            text : "新案",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%96%B0%E6%A1%88'
+          },
+          {
+            text : "新莊",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%96%B0%E8%8E%8A'
+          },
+		  {
+            text : "蛋黃",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E8%9B%8B%E9%BB%83'
+          },
+		  {
+            text : "順銷",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#q=%E9%A0%86%E9%8A%B7&tbm=nws'
+          },
+		  {
+            text : "雙北",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%9B%99%E5%8C%97'
+          },
+		  {
+            text : "重劃",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%87%8D%E5%8A%83'
+          },
+		  {
+            text : "建設",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%BB%BA%E8%A8%AD'
+          },
+		  {
+            text : "帶動",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%B8%B6%E5%8B%95'
+          },
+		  {
+            text : "建案",
+            size : 37,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%BB%BA%E6%A1%88'
+          },
+          {
+            text : "地產",
+            size : 35,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%9C%B0%E7%94%A2'
+          },
+          {
+            text : "長庚",
+            size : 25,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%95%B7%E5%BA%9A'
+          },
+          {
+            text : "溫泉",
+            size : 40,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%BA%AB%E6%B3%89'
+          },
+          {
+            text : "淡江",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%B7%A1%E6%B1%9F'
+          },
+          {
+            text : "大橋",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%A4%A7%E6%A9%8B'
+          },
+          {
+            text : "新店",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%96%B0%E5%BA%97'
+          },
+		  {
+            text : "中壢",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E4%B8%AD%E5%A3%A2'
+          },
+		  {
+            text : "推案",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%8E%A8%E6%A1%88'
+          },
+		  {
+            text : "通車",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%80%9A%E8%BB%8A'
+          },
+		  {
+            text : "地標",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%9C%B0%E6%A8%99'
+          },
+		  {
+            text : "自備",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E8%87%AA%E5%82%99'
+          },
+		  {
+            text : "青埔",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%9D%92%E5%9F%94'
+          },
+		  {
+            text : "交易",
+            size : 37,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E4%BA%A4%E6%98%93'
+          },
+          {
+            text : "投資",
+            size : 35,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%8A%95%E8%B3%87'
+          },
+          {
+            text : "慢活",
+            size : 25,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%85%A2%E6%B4%BB'
+          },
+          {
+            text : "泡湯",
+            size : 40,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%B3%A1%E6%B9%AF'
+          },
+          {
+            text : "房仲",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%88%BF%E4%BB%B2'
+          },
+          {
+            text : "海外",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%B5%B7%E5%A4%96'
+          },
+          {
+            text : "雙和",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E9%9B%99%E5%92%8C'
+          },
+		  {
+            text : "自鑿",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E8%87%AA%E9%91%BF'
+          },
+		  {
+            text : "年底",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%B9%B4%E5%BA%95'
+          },
+		  {
+            text : "瞄準",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E7%9E%84%E6%BA%96'
+          },
+		  {
+            text : "公園",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E5%85%AC%E5%9C%92'
+          },
+		  {
+            text : "住宅",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E4%BD%8F%E5%AE%85'
+          },
+		  {
+            text : "淡水",
+            size : 23,
+            url : 'https://www.google.com.tw/?gfe_rd=cr&ei=lQI4WPPNFcSA9AXL9KGgCQ#tbm=nws&q=%E6%B7%A1%E6%B0%B4'
+          }
+		  ];
+      d3.layout.cloud().size([ 500, 500 ]).words(data).padding(2).rotate(
+          0).font('"微軟正黑體",Impact').fontSize(function(d) {
+        return d.size;
+      }).on("end", draw).start();
+
+      function draw(words) {
+        d3.select("#tag") //要插入標籤雲的tag id
+        .append("svg").attr("width", 500).attr("height", 500)
+        .append("g").attr("transform", "translate(250,250)") //這裡的值要對應到繪圖區域的寬、高的一半，針對不同的瀏覽器要設可以使用的值，如Chrome為-webkit-transform
+        .selectAll("text").data(words).enter().append("text")
+        .style("font-size", function(d) {
+              return d.size + "px";
+            })
+        .style("font-family", '"微軟正黑體",Impact')
+        .style("cursor", 'pointer')
+        .style("fill", function(d, i) {
+          return fill(i);
+        }).attr("text-anchor", "middle")
+        .attr("transform",//跟上面的transform一樣，需依不同的瀏覽器設定對應的值
+            function(d) {
+              return "translate(" + [ d.x, d.y ] + ")rotate(" + d.rotate + ")";
+            })
+        .text(function(d) {
+          return d.text;
+        }).on('click', function(d) {
+          window.open(d.url);
+        });
+      }
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Complex icons</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 80%;
+		width:50%
+		margin:50,50
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+// The following example creates complex markers to indicate beaches near
+// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
+// to the base of the flagpole.
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: {lat: 25.0548897, lng: 121.6198273}
+  });
+
+}
+
+    </script>
+    <script type="text/javascript" 
+        src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=AIzaSyAx5d6zS25w00696xLPHGCnP63npDlbzvc&callback=initMap"></script>
+	<div>
+		<form action="/blog/add_record/" method="get" accept-charset="utf-8" enctype=text/plain>
+			<tr>
+				<tc>
+				<fieldset>
+				<legend>選擇</legend>
+				<input type="checkbox" name="info" value="1">公車站
+				<input type="checkbox" name="info1" value="2">捷運站
+				<input type="checkbox" name="info2" value="3">停車場
+				<input type="checkbox" name="info3" value="4">嫌惡設施
+				<input type="checkbox" name="info4" value="5">教育
+				<input type="checkbox" name="info5" value="6">房仲物件
+				<input type="checkbox" name="info6" value="7">生活
+				<input type="checkbox" name="info7" value="8">治安
+				<input type="checkbox" name="info8" value="9">安全
+				</fieldset>
+				<p>
+				<label>住址: <label>
+				<input type="text" name="add">
+				</P>
+				<p>
+				<label>距離(公尺): <label>
+				<input type="text" name="dist">
+				</P>
+				</tc>
+				<input type="submit" value="傳送出去">
+				<input type="reset" value="重新填寫">
+			</tr>
+		</form>
+		<br></br>
+		<form action="/blog/add2_record/" method="get" accept-charset="utf-8" enctype=text/plain>
+			<tr>
+				<tc>
+				<fieldset>
+				<legend>選擇</legend>
+				<input type="radio" name="info9" value="10">易肇事路口
+				<input type="radio" name="info10" value="11">不易搶救小巷
+				</fieldset>
+				</tc>
+				<input type="submit" value="傳送出去">
+				<input type="reset" value="重新填寫">
+			</tr>
+		</form>
+		<br></br>
+		<form action="/blog/add3_record/" method="get" accept-charset="utf-8" enctype=text/plain>
+			<tr>
+				<tc>
+				<fieldset>
+				<legend>房屋推薦</legend>
+				<label>附近住址: <label>
+				<input type="text" name="add">
+				<label>距離(公尺): <label>
+				<input type="text" name="dist">
+				</fieldset>
+				</tc>
+				<input type="submit" value="傳送出去">
+				<input type="reset" value="重新填寫">
+			</tr>
+		</form>
+	</div>
+  </body>
+</html>

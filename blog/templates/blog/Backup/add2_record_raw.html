@@ -1,0 +1,304 @@
+{% load staticfiles %}
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Complex icons</title>   
+    <style>
+      html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	  }
+	  #map {
+		height: 100%;
+	  }
+    </style>
+    
+	
+	<link rel="stylesheet">	
+  </head>
+  <body>
+	<div id="floating-panel">
+      <button onclick="toggleHeatmap()">Toggle Heatmap</button>
+      <button onclick="changeGradient()">Change gradient</button>
+      <button onclick="changeRadius()">Change radius</button>
+      <button onclick="changeOpacity()">Change opacity</button>
+    </div>
+	<tr>
+            <td valign="top" >
+	            <h2 class="title2">輸入地址查經緯度</h2>
+			    <p> 輸入欲查詢的地址<input id="address" type="text" size="50" value="">   <input type="button" value="查經緯度並在地圖上顯示" onClick="codeAddress()"> </p>
+	</tr>
+    <div id="map"></div>
+    <script>
+	var heatmap;
+// The following example creates complex markers to indicate beaches near
+// Sydney, NSW, Australia. Note that the anchor is set to (0,32) to correspond
+// to the base of the flagpole.
+
+function initMap() {
+	var map;
+	map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: {lat: 25.0548897, lng: 121.6198273},
+	mapTypeId: google.maps.MapTypeId.SATELLITE,
+  });
+  heatmap = new google.maps.visualization.HeatmapLayer({
+  data: getPoints(),
+  map: map
+  });
+  
+  setMarkers(map);
+}
+///////////////////// Heart ////////////////
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
+
+function changeGradient() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  heatmap.set('dissipating', heatmap.get('dissipating') ? null : false);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
+
+// Heatmap data: 500 Points
+
+function getPoints() {
+	return [
+{% for post in post5 %}
+	new google.maps.LatLng({{post.latitude}},{{post.longitude}}),		
+{% endfor %}
+]
+}
+
+///////////////////// Heart ////////////////
+
+function toggleHeatmap() {
+  heatmap.setMap(heatmap.getMap() ? null : map);
+}
+
+function changeGradient() {
+  var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+  ]
+  heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+}
+
+function changeRadius() {
+  heatmap.set('dissipating', heatmap.get('dissipating') ? null : false);
+}
+
+function changeOpacity() {
+  heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+}
+
+// Heatmap data: 500 Points
+
+function getPoints() {
+	return [
+{% for post in post4 %}
+	new google.maps.LatLng({{post.latitude}},{{post.longitude}}),		
+{% endfor %}
+]
+}
+
+////////////////////////////////////////////
+// Data for the markers consisting of a name, a LatLng and a zIndex for the
+// order in which these markers should display on top of each other.
+
+
+
+function setMarkers(map) {
+  // Adds markers to the map.
+
+  // Marker sizes are expressed as a Size of X,Y where the origin of the image
+  // (0,0) is located in the top left of the image.
+
+  // Origins, anchor positions and coordinates of the marker increase in the X
+  // direction to the right and in the Y direction down.
+  {% for post in posts %}
+  var image = {
+    url: "{% static 'pin-comm1.png' %}",
+    // This marker is 20 pixels wide by 32 pixels high.
+    size: new google.maps.Size(15, 15),
+    // The origin for this image is (0, 0).
+    origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+    anchor: new google.maps.Point(10, 10)
+  };
+  // Shapes define the clickable region of the icon. The type defines an HTML
+  // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+  // The final coordinate closes the poly by connecting to the first coordinate.
+  var shape = {
+    coords: [1, 1, 1, 20, 18, 20, 18, 1],
+    type: 'poly'
+  };
+
+	
+    var marker = new google.maps.Marker({
+      <!-- position: {lat: {{post.lat}}, lng: {{post.lng}}}, -->
+      map: map,
+      icon: image,
+      shape: shape,
+      title: '{{post.address_2}}'
+    });
+	{% endfor %}
+	
+	{% for post in post2 %}
+	var image = {
+		url: "{% static 'dgt9.gif' %}",
+    // This marker is 20 pixels wide by 32 pixels high.
+		size: new google.maps.Size(15, 15),
+    // The origin for this image is (0, 0).
+		origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+		anchor: new google.maps.Point(10, 10)
+	};
+  // Shapes define the clickable region of the icon. The type defines an HTML
+  // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+  // The final coordinate closes the poly by connecting to the first coordinate.
+	var shape = {
+		coords: [1, 1, 1, 20, 18, 20, 18, 1],
+		type: 'poly'
+	};
+
+	var marker = new google.maps.Marker({
+		position: {lat: {{post.lat}}, lng: {{post.lng}}},
+		map: map,
+		icon: image,
+		shape: shape,
+	});
+	{% endfor %}
+	
+	{% for post in post3 %}
+	var image = {
+		url: "{% static 'open.png' %}",
+    // This marker is 20 pixels wide by 32 pixels high.
+		size: new google.maps.Size(15, 15),
+    // The origin for this image is (0, 0).
+		origin: new google.maps.Point(0, 0),
+    // The anchor for this image is the base of the flagpole at (0, 32).
+		anchor: new google.maps.Point(10, 10)
+	};
+  // Shapes define the clickable region of the icon. The type defines an HTML
+  // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+  // The final coordinate closes the poly by connecting to the first coordinate.
+	var shape = {
+		coords: [1, 1, 1, 20, 18, 20, 18, 1],
+		type: 'poly'
+	};
+
+	var marker = new google.maps.Marker({
+		position: {lat: {{post.lat}}, lng: {{post.lng}}},
+		map: map,
+		icon: image,
+		shape: shape,
+		title: '{{post.address_2}}'
+	});
+	{% endfor %}		
+}
+    </script>
+    <script type="text/javascript" 
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx5d6zS25w00696xLPHGCnP63npDlbzvc&libraries=visualization&callback=initMap"></script>
+	<!-- 地址搜尋 -->
+    <script>
+	  function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+		
+//		document.getElementById("Latlng").value=results[0].geometry.location.toString();
+		document.getElementById("lat").value=results[0].geometry.location.lat();
+		document.getElementById("lng").value=results[0].geometry.location.lng();
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+		
+		showAddress(results[0], marker);
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+
+  </script>
+	<!-- 老師code -->
+	
+	<form action="add" method="get">
+	<table>			
+			<fieldset>
+				<legend>圖層特徵</legend>
+				<p>請打勾有興趣的選項</P>
+				<hr>
+				<div>					
+					<input type="checkbox"  name='1' value='1'>
+					
+					<label for="click">生活: </label>
+					
+				</div>
+				
+				<div>
+					<input type="checkbox"  name="2" id="select">
+					<label for="select">治安: </label>
+				</div>
+				<div>
+					<input type="checkbox"  name="3" id="contextmenu">
+					<label >教育: </label>
+				</div>
+<!-- 				<div>
+					<input type="checkbox"  name="4" id="resize">
+					<label for="resize">房屋: </label>
+				</div>
+				<div>
+					<input type="checkbox"  name="5" id="forcus">
+					<label for="forcus">鄰避設施: </label>
+				</div>
+<div> -->
+					<input type="submit" value="Submit" id="submit">
+				</div>
+			</fieldset>
+			
+		</form>
+		
+		
+  </body>
+</html>
