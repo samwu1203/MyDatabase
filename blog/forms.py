@@ -4,12 +4,10 @@
 
 from django import forms
 from .models import mysearch
+from django.utils import timezone
 
 class PostForm(forms.ModelForm):
-	title = forms.CharField(max_length=200)
-	content = forms.CharField(max_length=200)
-	model_name = forms.CharField(max_length=200)
 	class Meta:
 		model = mysearch
 #		fields = '_all_'
-		fields = ('title', 'content', 'model_name')
+		fields = ('Class', 'title', 'content', 'created_data', 'publish_data', 'file', 'img')

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <html lang="en">
 <head>
-	<title>House Serching System</title>
+	<title>My Database System</title>
 	<meta charset="utf-8">
 <!---	<meta name="author" content="pixelhint.com">
 	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
@@ -17,52 +17,62 @@
 </head>
 <body>
 			<section class="caption">
-				<h2 class="caption">My Search</h2>
+				<h2 class="caption">My Database System</h2>
 			</section>
-
-	<br></br>
-<!--	<div class="chkList">
-		<form action="/blog/post_list1/" method="get" accept-charset="utf-8" enctype=text/plain>
+	<div class="chkList">
+		<form action="/blog/post_list1/" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
 		{% csrf_token %}
 			<div>
-				<label>專案內容: </label>
-				<input type="text" name="cont">
+				<select name="Class">
+				<option value="個人">個人</option>
+				<option value="公司">公司</option>
+				<option value="郵件">郵件</option>
+				</select>
 				<br></br>
 				<label>標題: </label>
 				<input type="text" name="title">
 				<br></br>
-				<label>機種: </label>
-				<input type="text" name="name">
+				<label>內容: </label>
+				<p></p>
+				<textarea name="content" cols="50" rows="5">
+				</textarea>
 				<br></br>
 				<label>日期: </label>
-				<input type="text" name="time">
+				<input type="text" name="created_data">
+				<br></br>
+				<label>上傳日期: </label>
+				<input type="text" name="publish_data">
 				<br></br>
 				<label>上傳檔案: </label>
-				<input type="text" name="file">
-				<br></br>
-				<label>上傳: </label>
-				<input type="checkbox" name="info1" value="24" id="disgust">
-				<label for="disgust">檔案</label>
-				<input type="checkbox" name="info2" value="25" id="disgust">
-				<label for="disgust">圖檔</label>
+				<input type="file" name="file">
+				<label>上傳圖檔</label>
+				<input type="file" name="img", accept="image/*">
 			</div>
 				<p></p>
 				<input type="submit" value="傳送出去">
 				<input type="reset" value="重新填寫">
 			<br></br>
 		</form>
-	</div>  -->
-		<form action="/blog/post_list1/" method="post" role="form" accept-charset="utf-8" enctype=text/plain>
+	</div>
+<!--		<form action="/blog/post_list1/" method="post" role="form" accept-charset="utf-8" enctype=text/plain>
 		{% csrf_token %}
 			{{form.as_p}}
 			<button type="submit" name="post_list1">建立</button>
 			<input type="reset" value="重新填寫">
-		</form>
+		</form> -->
 		<div>
 			{%for post in posts%}
+			<p>分類:{{post.Class}}</p>
 			<p>標題:{{post.title}}</p>
-			<p>機種:{{post.model_name}}</p>
 			<p>專案內容:{{post.content}}</p>
+			<p>日期:{{post.created_data}}</p>
+			<p>上傳日期:{{post.publish_data}}</p>
+			<img src="/media/{{ post.img }}"  width="800" height="800">
+			<p></p>
+			<a href="/media/{{post.img}}">圖檔:{{post.img}}</a>
+			<p></p>
+			<a href="/media/{{post.file}}">檔案:{{post.file}}</a>
+			<p>==============================</p>
 			{%endfor%}
 		</div>
 </body>

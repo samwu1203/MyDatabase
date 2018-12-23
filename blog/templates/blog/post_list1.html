@@ -18,7 +18,7 @@
 	</section><!--	end hero section  -->
 	<br></br>
 	<div class="ch">
-		<form action="/blog/post_list1/" method="post" accept-charset="utf-8" enctype=text/plain>
+		<form action="/blog/post_list1/" method="post" accept-charset="utf-8" enctype="multipart/form-data">
 		{% csrf_token %}
 			<table>
 				{{form.as_table}}

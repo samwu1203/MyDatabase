@@ -11,13 +11,14 @@ from django.utils import timezone
 
 
 class mysearch(models.Model):
+	timezone.localtime(timezone.now())
+	Class = models.CharField(blank=True, null=True, max_length=200)
 	title = models.CharField(blank=True, null=True, max_length=200)
-	content = models.CharField(blank=True, null=True, max_length=200)
-	model_name = models.CharField(blank=True, null=True, max_length=200)
-#	created_data = models.DateTimeField(blank=True,null=True)
-#	publish_data = models.DateTimeField(default=timezone.now)
-#    file = models.FileField(upload_to = './file/')
-#    img = models.ImageField(upload_to='/.img')
+	content = models.TextField(blank=True, null=True, max_length=2000)
+	created_data = models.DateTimeField(blank=True,null=True)
+	publish_data = models.DateTimeField(default=timezone.now)
+	file = models.FileField(blank=True,upload_to = './file/')
+	img = models.ImageField(blank=True,upload_to='./img')
 
 	def __unicode__(self):
 		return self.title
