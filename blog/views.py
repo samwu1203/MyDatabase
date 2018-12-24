@@ -12,27 +12,27 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.utils import timezone
 import os, sys
-from PIL import Image, ExifTags
+#from PIL import Image, ExifTags
 
-def rotate_image(filepath):
-	try:
-		image = Image.open(filepath)
-		for orientation in ExifTags.TAGS.keys():
-			if ExifTags.TAGS[orientation] == 'Orientation':
-				break
-		exif = dict(image._getexif().items())
+#def rotate_image(filepath):
+#	try:
+#		image = Image.open(filepath)
+#		for orientation in ExifTags.TAGS.keys():
+#			if ExifTags.TAGS[orientation] == 'Orientation':
+#				break
+#		exif = dict(image._getexif().items())
 
-		if exif[orientation] == 3:
-			image = image.rotate(180, expand=True)
-		elif exif[orientation] == 6:
-			image = image.rotate(270, expand=True)
-		elif exif[orientation] == 8:
-			image = image.rotate(90, expand=True)
-		image.save(filepath)
-		image.close()
-	except (AttributeError, KeyError, IndexError):
+#		if exif[orientation] == 3:
+#			image = image.rotate(180, expand=True)
+#		elif exif[orientation] == 6:
+#			image = image.rotate(270, expand=True)
+#		elif exif[orientation] == 8:
+#			image = image.rotate(90, expand=True)
+#		image.save(filepath)
+#		image.close()
+#	except (AttributeError, KeyError, IndexError):
 	# cases: image don't have getexif
-		pass
+#		pass
 
 @csrf_exempt
 def post_list(request):
@@ -65,9 +65,9 @@ def post_list1(request):
 		if form.is_valid():
 			form.save()
 			form = PostForm()
-			post=mysearch.objects.order_by('id').last()
-			print (str(post.img))
-			rotate_image('./media/'+str(post.img))
+#			post=mysearch.objects.order_by('id').last()
+#			print (str(post.img))
+#			rotate_image('./media/'+str(post.img))
 			posts = mysearch.objects.all()
 			return render(request, 'blog/post_list.html',{'form':form, 'posts':posts})
 		print ('error')

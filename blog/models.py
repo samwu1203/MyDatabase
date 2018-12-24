@@ -8,6 +8,30 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
+from PIL import Image, ExifTags
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+import os
+
+def rotate_image(filepath):
+	try:
+		image = Image.open(filepath)
+		for orientation in ExifTags.TAGS.keys():
+			if ExifTags.TAGS[orientation] == 'Orientation':
+				break
+		exif = dict(image._getexif().items())
+
+		if exif[orientation] == 3:
+			image = image.rotate(180, expand=True)
+		elif exif[orientation] == 6:
+			image = image.rotate(270, expand=True)
+		elif exif[orientation] == 8:
+			image = image.rotate(90, expand=True)
+		image.save(filepath)
+		image.close()
+	except (AttributeError, KeyError, IndexError):
+	# cases: image don't have getexif
+		pass
 
 
 class mysearch(models.Model):
@@ -19,6 +43,13 @@ class mysearch(models.Model):
 	publish_data = models.DateTimeField(default=timezone.now)
 	file = models.FileField(blank=True,upload_to = './file/')
 	img = models.ImageField(blank=True,upload_to='./img')
+	
+@receiver(post_save, sender=mysearch, dispatch_uid="update_image_profile")
+def update_image_profile(sender, instance, **kwargs):
+  if instance.img:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fullpath = BASE_DIR + instance.img.url
+    rotate_image(fullpath)
 
-	def __unicode__(self):
-		return self.title
+#	def __unicode__(self):
+#		return self.title
